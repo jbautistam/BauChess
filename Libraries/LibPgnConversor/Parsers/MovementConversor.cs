@@ -8,7 +8,6 @@ using Bau.Libraries.LibPgnReader.Models.Movements;
 
 namespace Bau.Libraries.LibPgn.Conversor.Parsers
 {
-
 	/// <summary>
 	///		Conversor de movimientos
 	/// </summary>
