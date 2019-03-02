@@ -1,0 +1,115 @@
+﻿<Window xmlns:Controls="clr-namespace:BauChessViewer.Views.Controls"  x:Class="BauChessViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BauChessViewer"
+		xmlns:viewModels="clr-namespace:Bau.Libraries.LibChessGame.ViewModels.Board.Movements;assembly=LibChessGame.ViewModels"
+        mc:Ignorable="d"
+        Title="Bau Pgn Viewer" Height="857" Width="1279" Loaded="Window_Loaded" 
+		WindowStartupLocation="CenterScreen" Closing="Window_Closing">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+		<ToolBarTray Grid.Row="0" Grid.Column="0">
+			<ToolBar Cursor="" IsHitTestVisible="True">
+				<TextBlock Text="{Binding Path=PgnLibraryViewModel.FileName}" Margin="2" FontWeight="Bold" />
+				<Button ToolTip="Abrir" Command="{Binding Path=LoadCommand}">
+					<Image Source="Resources/Images/Folder.png" />
+				</Button>
+				<Button ToolTip="Ver archivo" Click="cmdShowFile_Click">
+					<Image Source="Resources/Images/WebBrowser.png" />
+				</Button>
+			</ToolBar>
+		</ToolBarTray>
+		<Button Grid.Row="0" Grid.Column="1" ToolTip="Partida anterior" Command="{Binding Path=PgnLibraryViewModel.PreviousGameCommand}">
+			<Image Source="Resources/Images/ArrowPrevious.png" />
+		</Button>
+		<ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Path=PgnLibraryViewModel.Games}" 
+				SelectedItem="{Binding Path=PgnLibraryViewModel.SelectedGame}" Text="{Binding Title}">
+			<ComboBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Event}"></TextBlock>
+							<TextBlock Text="-"></TextBlock>
+							<TextBlock Text="{Binding Round}"></TextBlock>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding WhitePlayer}"></TextBlock>
+							<TextBlock Text="-"></TextBlock>
+							<TextBlock Text="{Binding BlackPlayer}"></TextBlock>
+						</StackPanel>
+					</StackPanel>
+				</DataTemplate>
+			</ComboBox.ItemTemplate>
+		</ComboBox>
+		<Button Grid.Row="0" Grid.Column="3" ToolTip="Partida siguiente" Command="{Binding Path=PgnLibraryViewModel.NextGameCommand}">
+			<Image Source="Resources/Images/ArrowNext.png" />
+		</Button>
+		<Border Grid.Row="1" Grid.Column="0" Margin="2" Padding="5" BorderBrush="Black" BorderThickness="1" Background="#FF40B9E6">
+			<Controls:ChessBoardView x:Name="udtBoard"/>
+		</Border>
+		<TabControl Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="5">
+			<TabItem Header="Movimientos">
+				<Controls:MovementsListView x:Name="udtListMovements" ViewModel="{Binding Path=PgnLibraryViewModel}" />
+			</TabItem>
+			<TabItem Header="Información">
+				<ListView ItemsSource="{Binding Path=PgnLibraryViewModel.SelectedGame.InformationList.Items}" Foreground="Black">
+					<ListView.View>
+						<GridView AllowsColumnReorder="False">
+							<GridViewColumn Header="Título" Width="100">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text= "{Binding Path=Header}" FontWeight="Bold"/>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Header="Texto" Width="200">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<TextBlock Text= "{Binding Path=Text}" TextWrapping="Wrap" />
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</TabItem>
+		</TabControl>
+		<Border Grid.Row="2" Grid.Column="0" Background="#FF9AC9D1" Margin="2" BorderBrush="Black" BorderThickness="1">
+			<Controls:MovementInfoView x:Name="udtMovementInfoView" />
+		</Border>
+		<Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="2" Padding="2" Background="AliceBlue" BorderBrush="Black" BorderThickness="1">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="Tablero:" VerticalAlignment="Center" />
+				<ComboBox Grid.Row="0" Grid.Column="1" Margin="5" 
+					ItemsSource="{Binding Path=ComboPathBoard.Paths}" SelectedItem="{Binding Path=ComboPathBoard.SelectedPath}" />
+				<TextBlock Grid.Row="0" Grid.Column="2" Margin="5" Text="Piezas:" VerticalAlignment="Center" />
+				<ComboBox Grid.Row="0" Grid.Column="3" Margin="5" 
+					ItemsSource="{Binding Path=ComboPathPieces.Paths}" SelectedItem="{Binding Path=ComboPathPieces.SelectedPath}" />
+				<CheckBox Grid.Row="0" Grid.Column="4" Margin="5" Content="Mostrar animaciones" IsChecked="{Binding Path=MustShowAnimation}" VerticalAlignment="Center" />
+			</Grid>
+		</Border>
+	</Grid>
+</Window>

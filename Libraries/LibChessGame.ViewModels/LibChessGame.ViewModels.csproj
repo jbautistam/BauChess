@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Bau.Libraries.LibChessGame.ViewModels</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Board\Movements\Old\MovementFigureDoubleViewModel.cs" />
+    <Compile Remove="Board\Movements\Old\MovementFigureVariationDoubleViewModel.cs" />
+    <Compile Remove="Board\Movements\Old\MovementFigureViewModel.cs" />
+    <Compile Remove="Board\Movements\Old\MovementGameEndViewModel.cs" />
+    <Compile Remove="Board\Movements\Old\MovementRemarkViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Board\GameBoardViewModel.cs~RF4811a948.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibChessGame.Models\LibChessGame.Models.csproj" />
+    <ProjectReference Include="..\LibChessGame.Mvvm\LibChessGame.Mvvm.csproj" />
+    <ProjectReference Include="..\LibPgnConversor\LibPgn.Conversor.csproj" />
+    <ProjectReference Include="..\LibPgnReader\LibPgnReader.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Board\Movements\Old\" />
+  </ItemGroup>
+
+</Project>
